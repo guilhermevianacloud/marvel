@@ -1,0 +1,54 @@
+img{
+  width: 300px;
+  border-bottom-style: solid;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.personagem{
+  width: 300px;
+  margin: 20px;
+  border-style: solid;
+  border-radius: 16px;
+  text-align: center;
+}
+#herois{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 24px;
+}
+.loading-text {
+  margin-right: 10px;
+  font-weight: bold;
+}
+.loading-dots {
+  display: inline-block;
+}
+@keyframes blink {
+  0%, 20% {
+    opacity: 0;
+  }
+  20%, 40% {
+    opacity: 1;
+  }
+  40%, 100% {
+    opacity: 0;
+  }
+}
+.dot-1 {
+  animation: blink 1.4s infinite both;
+}
+.dot-2 {
+  animation: blink 1.4s infinite both;
+  animation-delay: 0.2s;
+}
+.dot-3 {
+  animation: blink 1.4s infinite both;
+  animation-delay: 0.4s;
+}
