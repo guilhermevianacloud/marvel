@@ -1,3 +1,14 @@
+body {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+}
+#herois{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 img{
   width: 300px;
   border-bottom-style: solid;
@@ -11,24 +22,26 @@ img{
   border-radius: 16px;
   text-align: center;
 }
-#herois{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 .loading-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  background: linear-gradient(135deg, #c8102e, #e50027);
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
   font-size: 24px;
+  text-align: center;
 }
 .loading-text {
-  margin-right: 10px;
+  margin-right: 15px;
+  font-size: 28px;
   font-weight: bold;
+  text-transform: uppercase;
 }
 .loading-dots {
   display: inline-block;
+  font-size: 30px;
 }
 @keyframes blink {
   0%, 20% {
@@ -41,14 +54,16 @@ img{
     opacity: 0;
   }
 }
-.dot-1 {
+.dot-1, .dot-2, .dot-3 {
+  display: inline-block;
   animation: blink 1.4s infinite both;
 }
+.dot-1 {
+  animation-delay: 0s;
+}
 .dot-2 {
-  animation: blink 1.4s infinite both;
   animation-delay: 0.2s;
 }
 .dot-3 {
-  animation: blink 1.4s infinite both;
   animation-delay: 0.4s;
 }
