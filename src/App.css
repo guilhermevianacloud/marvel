@@ -1,6 +1,6 @@
 /* Geral */
 body {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Work Sans", sans-serif;
   margin: 0;
   padding: 0;
   background-color: #fff;
@@ -73,6 +73,8 @@ body {
 .controls {
   display: flex;
   align-items: center;
+  align-content: baseline;
+  
 }
 
 .sort-button {
@@ -110,8 +112,9 @@ body {
 
 
 .favorites-toggle {
-  display: flex;
+  display: flex;  
   align-items: center;
+  justify-content: space-between;
   margin-left: 20px;
   cursor: pointer;
   color: #c8102e;

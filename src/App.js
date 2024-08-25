@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-// Constantes para autenticação na API do Marvel
 const apiKey = "61f674e4830b5c7eef216aa8801e6d15";
 const time = "1724527096";
 const hash = "d87eaf0608cceaf972e69ad9220b2f5a";
@@ -11,8 +10,8 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
     const [favoriteCount, setFavoriteCount] = useState(0);
+    const [searchTerm, setSearchTerm] = useState(""); // Novo estado para a barra de pesquisa
 
-    // Caminhos das imagens de coração preenchido e vazio
     const heartEmpty = "assets/icones/heart/Path Copy 2.png";
     const heartFilled = "assets/icones/heart/Path.png";
 
@@ -27,10 +26,9 @@ function App() {
             .then((response) => response.json())
             .then((jsonParsed) => {
                 const charactersData = jsonParsed.data.results;
-                // Inicializa a lista de personagens
                 const updatedCharacters = charactersData.map((char) => ({
                     ...char,
-                    isFavorite: false, // Inicializa como não favorito
+                    isFavorite: false,
                 }));
                 setCharacters(updatedCharacters);
                 setLoading(false);
@@ -45,6 +43,17 @@ function App() {
         setIsChecked(!isChecked);
     };
 
+    useEffect(() => {
+        const savedFavorites =
+            JSON.parse(localStorage.getItem("favorites")) || {};
+        setCharacters((prevCharacters) =>
+            prevCharacters.map((char) => ({
+                ...char,
+                isFavorite: savedFavorites[char.id] || false,
+            }))
+        );
+    }, []);
+
     const toggleFavorite = (id) => {
         setCharacters((prevCharacters) => {
             const characterIndex = prevCharacters.findIndex(
@@ -56,7 +65,6 @@ function App() {
             const character = newCharacters[characterIndex];
             const newFavoriteStatus = !character.isFavorite;
 
-            // Checa se o novo status é favorito e o número total de favoritos
             if (newFavoriteStatus && favoriteCount >= 5) {
                 console.log("Limite de favoritos atingido.");
                 return prevCharacters;
@@ -68,19 +76,30 @@ function App() {
                 setFavoriteCount(favoriteCount - 1);
             }
 
-            // Atualiza o estado do personagem
             newCharacters[characterIndex] = {
                 ...character,
                 isFavorite: newFavoriteStatus,
             };
+
+            // Salva no localStorage
+            const updatedFavorites = {
+                ...JSON.parse(localStorage.getItem("favorites") || "{}"),
+                [id]: newFavoriteStatus,
+            };
+            localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
             return newCharacters;
         });
     };
 
-    // Filtra os personagens com base no estado do toggle
+    // Filtra os personagens com base no termo de pesquisa
+    const filteredCharacters = characters.filter((char) =>
+        char.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const displayedCharacters = isChecked
-        ? characters.filter((char) => char.isFavorite)
-        : characters;
+        ? filteredCharacters.filter((char) => char.isFavorite)
+        : filteredCharacters;
 
     return (
         <div className="app">
@@ -107,7 +126,12 @@ function App() {
                         alt="Search Icon"
                         className="search-icon"
                     />
-                    <input type="text" placeholder="Procure por heróis" />
+                    <input
+                        type="text"
+                        placeholder="Procure por heróis"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)} // Atualiza o termo de pesquisa
+                    />
                 </div>
                 <div className="controls">
                     <button className="sort-button">
@@ -167,8 +191,8 @@ function App() {
                                     <img
                                         src={
                                             character.isFavorite
-                                                ? heartFilled // Se o personagem é favorito, exibe o coração preenchido
-                                                : heartEmpty // Se não é favorito, exibe o coração vazio
+                                                ? heartFilled
+                                                : heartEmpty
                                         }
                                         alt="Favorite Icon"
                                         className="favorite-icon"
