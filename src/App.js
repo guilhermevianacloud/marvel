@@ -11,7 +11,7 @@ function App() {
     const [isChecked, setIsChecked] = useState(false);
     const [favoriteCount, setFavoriteCount] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
-    const [sortOrder, setSortOrder] = useState("asc"); // Estado para ordenar
+    const [sortOrder, setSortOrder] = useState("asc"); // ordenar a/z
 
     const heartEmpty = "assets/icones/heart/Path Copy 2.png";
     const heartFilled = "assets/icones/heart/Path.png";
