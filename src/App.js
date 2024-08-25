@@ -10,7 +10,8 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
     const [favoriteCount, setFavoriteCount] = useState(0);
-    const [searchTerm, setSearchTerm] = useState(""); // Novo estado para a barra de pesquisa
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortOrder, setSortOrder] = useState("asc"); // Estado para ordenar
 
     const heartEmpty = "assets/icones/heart/Path Copy 2.png";
     const heartFilled = "assets/icones/heart/Path.png";
@@ -66,7 +67,7 @@ function App() {
             const newFavoriteStatus = !character.isFavorite;
 
             if (newFavoriteStatus && favoriteCount >= 5) {
-                console.log("Limite de favoritos atingido.");
+                alert("Limite de favoritos atingido.");
                 return prevCharacters;
             }
 
@@ -81,7 +82,6 @@ function App() {
                 isFavorite: newFavoriteStatus,
             };
 
-            // Salva no localStorage
             const updatedFavorites = {
                 ...JSON.parse(localStorage.getItem("favorites") || "{}"),
                 [id]: newFavoriteStatus,
@@ -92,14 +92,25 @@ function App() {
         });
     };
 
-    // Filtra os personagens com base no termo de pesquisa
     const filteredCharacters = characters.filter((char) =>
         char.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const sortedCharacters = [...filteredCharacters].sort((a, b) => {
+        if (sortOrder === "asc") {
+            return a.name.localeCompare(b.name);
+        } else {
+            return b.name.localeCompare(a.name);
+        }
+    });
+
     const displayedCharacters = isChecked
-        ? filteredCharacters.filter((char) => char.isFavorite)
-        : filteredCharacters;
+        ? sortedCharacters.filter((char) => char.isFavorite)
+        : sortedCharacters;
+
+    const handleSortToggle = () => {
+        setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
+    };
 
     return (
         <div className="app">
@@ -130,16 +141,16 @@ function App() {
                         type="text"
                         placeholder="Procure por heróis"
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)} // Atualiza o termo de pesquisa
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
                 <div className="controls">
-                    <button className="sort-button">
+                    <button className="sort-button" onClick={handleSortToggle}>
                         <img
                             src="assets/icones/heroi/noun_Superhero_2227044.png"
                             alt="Hero Icon"
                         />
-                        Ordenar por nome - A/Z
+                        Ordenar por nome - {sortOrder === "asc" ? "A/Z" : "Z/A"}
                     </button>
 
                     <div className="toggle-button" onClick={handleToggle}>
