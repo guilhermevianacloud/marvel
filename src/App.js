@@ -16,6 +16,8 @@ function App() {
     const heartEmpty = "assets/icones/heart/Path Copy 2.png";
     const heartFilled = "assets/icones/heart/Path.png";
 
+    /////////////////
+
     useEffect(() => {
         fetchCharacters();
     }, []);
@@ -55,6 +57,8 @@ function App() {
         );
     }, []);
 
+    ////////////////
+
     const toggleFavorite = (id) => {
         setCharacters((prevCharacters) => {
             const characterIndex = prevCharacters.findIndex(
@@ -92,6 +96,8 @@ function App() {
         });
     };
 
+    /////////////////////////
+
     const filteredCharacters = characters.filter((char) =>
         char.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -128,9 +134,6 @@ function App() {
                         em breve!
                     </p>
                 </div>
-            </header>
-
-            <div className="search-section">
                 <div className="search-bar">
                     <img
                         src="assets/busca/Lupa/Shape.png"
@@ -144,6 +147,9 @@ function App() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
+            </header>
+
+            <div className="controls-section">
                 <div className="controls">
                     <button className="sort-button" onClick={handleSortToggle}>
                         <img
